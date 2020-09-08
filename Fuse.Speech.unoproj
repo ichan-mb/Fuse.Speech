@@ -1,0 +1,13 @@
+{
+  "Packages": [
+    "Fuse",
+    "FuseJS",
+    "Fuse.Scripting",
+    "Uno.Permissions"
+  ],
+  "Includes": [
+    "iOS/Speech.hh:ObjCHeader:iOS",
+    "iOS/Speech.mm:ObjCSource:iOS",
+    "*"
+  ]
+}

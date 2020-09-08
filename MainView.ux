@@ -1,0 +1,47 @@
+<App>
+	<ClientPanel Margin="10">
+		<JavaScript>
+			var Speech = require("FuseJS/Speech");
+			var Observable = require("FuseJS/Observable");
+			spokenWords = Observable("I'm Listening");
+			isRecording = Observable(false);
+
+			Speech.on('onResult', function(res){
+			spokenWords.value = res;
+			console.log(res);
+			});
+			Speech.on('onEnableChanged', function(isEnabled){
+			isRecording.value = isEnabled;
+			if(isEnabled)
+			spokenWords.value = "I'm Listening";
+			else {
+			if (spokenWords.value.length > 0) Speech.startSpeaking("Baik saya mengerti");
+			spokenWords.value = "";
+			}
+			});
+
+			function click(){
+			Speech.requestPermission().then((result) => {
+			if (result)
+			Speech.startListening();
+			})
+			}
+
+			module.exports = {spokenWords: spokenWords, click: click, isRecording: isRecording};
+		</JavaScript>
+		<Panel Dock="Bottom" Height="25%">
+			<Circle ux:Name="cir" Color="#eee" Clicked="{click}">
+				<Text ux:Name="cirTxt" Alignment="Center" FontSize="30">Start</Text>
+			</Circle>
+			<WhileTrue Value="{isRecording}">
+				<Change cir.Color="#f00" Duration="0.2" />
+				<Change cirTxt.Opacity="0" Duration="0.2" />
+			</WhileTrue>
+		</Panel>
+		<Panel Color="#eee" MinHeight="30">
+			<NativeViewHost>
+				<Text Value="{spokenWords}" TextWrapping="Wrap" FontSize="20" Color="Black" />
+			</NativeViewHost>
+		</Panel>
+	</ClientPanel>
+</App>

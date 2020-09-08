@@ -1,0 +1,3 @@
+<Extensions Backend="CPlusPlus" Condition="Android">
+	<Require AndroidManifest.Permission="android.permission.RECORD_AUDIO" />
+</Extensions>
